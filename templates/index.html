@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>WideBot</title>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+	</head>
+	<body>
+		<header>
+			<nav class="navbar bg-dark justify-content-center header-bar">
+				<h1 class="navbar-text">My Awesome Binary Classifier</h1>
+			</nav>
+		</header>
+
+		<div class="container margin-3">
+			<form action="/" method="post">
+				<div class="form-group">
+					<label for="exampleInputEmail1">Enter a semi-colon separated string</label>
+					<input class="form-control" type="text" name="text" placeholder="Sample data" />
+				</div>
+				<input class="btn btn-primary" type="submit" value="Make prediction" />
+			</form>
+		</div>
+
+		<div class="container margin-2">
+			{% if results %}
+				<h5>You entered:</h5>
+				<table class="table table-striped">
+					<thead class="thead-dark">
+						<tr class="text-center">
+							{% for i in range(9) %}
+								<th scope="col">{{ 'variable{}'.format(i) }}</th>
+							{% endfor %}
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							{% for i in range(9) %}
+								<td>{{ user_input.split(';')[i] }}</td>
+							{% endfor %}
+						</tr>
+					</tbody>
+				</table>
+				<table class="table table-striped">
+					<thead class="thead-dark">
+						<tr class="text-center">
+							{% for i in range(9, 18) %}
+								<th scope="col">{{ 'variable{}'.format(i) }}</th>
+							{% endfor %}
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							{% for i in range(9, 18) %}
+								<td>{{ user_input.split(';')[i] }}</td>
+							{% endfor %}
+						</tr>
+					</tbody>
+				</table>
+				<div class="d-flex justify-content-center">
+					<h3>Classifier output: <span style="font-size: 18px; font-weight: 400;">{{ results }}</span></h3>
+				</div>
+
+			{% elif error %}
+				<div class="d-flex justify-content-center">
+					<div class="alert alert-danger text-center">
+						<p class="alert-header">The values you entered is invalid. Please enter valid values.</p>
+						<p class="alert-body">"a";17,92;5,4e-05;"u";"g";"c";"v";1,75;"f";"t";1;"t";"g";80;5;8e+05;"t";0;"no."</p> 
+					</div>
+				</div>
+			{% endif %}
+		</div>
+
+		<div class="fixed-bottom margin-5">
+			<footer class="footer">
+				<nav class="navbar navbar-dark bg-dark justify-content-center">
+					<h4 class="navbar-text">&copy; WideBot Binary Classifier by Pavly Salah Zaki</h4>
+				</nav>
+			</footer>
+		</div>
+
+		<script
+			src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+			integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>
