@@ -83,4 +83,6 @@ if __name__ == '__main__':
     X_train, y_train = preprocess_df(df_train)
     clf = train(X_train, y_train)
 
-    app.run(debug=True, extra_files=extra_files)
+    # Had to explicitly assign a host and a port for docker
+    # To run docker image: docker run -it -d -p 5000:5000 binary_clf
+    app.run(extra_files=extra_files, host='0.0.0.0', port='5000')
