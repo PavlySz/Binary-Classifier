@@ -1,41 +1,22 @@
-# FROM alpine:latest
+# Using Ubuntu 18.0 image
+FROM ubuntu:18.04
 
-# # RUN apk add python3 py3-pip \
-# #     && pip3 install --upgrade pip
-# RUN apk --no-cache --update-cache add gcc gfortran python3 python3-dev py3-pip build-base wget freetype-dev libpng-dev openblas-dev
-# RUN ln -s /usr/include/locale.h /usr/include/xlocale.h
-# RUN pip3 install pandas
+# Check for updates
+RUN apt-get update && \
+  apt-get install -y software-properties-common
 
-# WORKDIR /app
+# Get essential depenedencies for Python3
+RUN apt-get install -y build-essential python3.6 python3.6-dev python3-pip python3.6-venv
 
-# COPY . /app
+# Update pip
+RUN python3.6 -m pip install pip --upgrade
 
-# RUN apk add g++ 
-# RUN pip3 --no-cache-dir install -r requirements.txt
-
-# EXPOSE 5000
-
-# ENTRYPOINT [ "python3" ]
-# CMD [ "flask_website.py" ]
-
-### Dockerfile
-FROM python:3.6.7-alpine3.6
+# Install required packages
+RUN pip install --no-cache-dir numpy pandas matplotlib flask scipy scikit-learn
 
 # Set the working directory of the docker image
 WORKDIR /app
 COPY . /app
-
-# Install native libraries, required for numpy
-RUN apk --no-cache add musl-dev linux-headers g++
-
-# Upgrade pip
-RUN pip install --upgrade pip
-
-# packages that we need
-RUN pip install numpy && \
-    pip install pandas && \
-    pip install flask && \
-    pip install scikit-learn
 
 # export a Docker port
 EXPOSE 5000
