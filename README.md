@@ -6,3 +6,7 @@ Given a string of semi-colon separated variables, the system would output either
 Dataset: [confidential]
 
 Classifier: Random Forrest classifier
+
+Docker image: Ubuntu 18.04
+
+Requireents can be found in requirements.txt

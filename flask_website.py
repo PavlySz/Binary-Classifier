@@ -5,7 +5,8 @@ import os
 import io
 import pandas as pd
 from flask import Flask, render_template, request
-from binary_classifier import *
+from binary_classifier import preprocess_df, preprocess_df_test, \
+                              train, predict
 
 app = Flask(__name__, template_folder="templates")
 
@@ -20,13 +21,28 @@ for extra_dir in extra_dirs:
 
 
 def predict_user_data(data, clf):
+    '''
+    Given a user input and a trained classifier, make predictions
+
+    Args:
+        data (str): user-entered data
+        clf (sklearn classifier): trained vlassifer
+
+    Returns:
+        result (str): either 'yes' or 'no'
+                      based on the classifier's prediction
+    '''
+    # Covert the string data to datframe
     df = pd.read_csv(io.StringIO(data), sep=';', header=None)
     df.columns = ['variable1', 'variable2', 'variable3', 'variable4', 'variable5',
                   'variable6', 'variable7', 'variable8', 'variable9', 'variable10',
                   'variable11', 'variable12', 'variable13', 'variable14', 'variable15',
                   'variable17', 'variable18', 'variable19']
 
+    # Preprocess the data as a test data (no classLabel input)
     X_test = preprocess_df_test(df)
+
+    # Make preditctions
     result = predict(X_test, clf)
     result = 'no' if int(result) == 0 else 'yes'
     print(result)
@@ -35,22 +51,26 @@ def predict_user_data(data, clf):
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
+    '''
+    Website home
+    '''
     if request.method == 'POST':
         data = request.form.get('text')
         print(f"The user entered: {data}")
 
+        # If the usr has enetered any data
         if data != '':
-            if data == 'YEP':
-                result = 'YEP COCK'
-            elif data == 'NOP':
-                result = 'Sadge'
-            else:
-                result = predict_user_data(data, clf)
+            # Make predictions
+            result = predict_user_data(data, clf)
 
+            # If there are any results
             if len(result) != 0:
+                # Re-render the index page and display the
+                # data and the reuslts
                 return render_template('index.html', user_input=data,
                                        results=result)
             else:
+                # If there is an error, display it
                 return render_template('index.html', error='true')
 
     return render_template('index.html')
