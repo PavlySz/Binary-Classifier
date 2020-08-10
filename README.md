@@ -1,5 +1,5 @@
 # Binary Classifier
-Job Recommendation System - WideBot Task
+Binary Classifier - WideBot Task
 
 Given a string of semi-colon separated variables, the system would output either 'yes' or 'no'
 
