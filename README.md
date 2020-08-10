@@ -7,6 +7,8 @@ Dataset: [confidential]
 
 Classifier: Random Forrest classifier
 
+Requirements can be found in requirements.txt
+
 Docker image: Ubuntu 18.04
 
-Requireents can be found in requirements.txt
+Docker image repository: [binary_classifier](https://hub.docker.com/repository/docker/pavlysz/binary_classifier_production)
